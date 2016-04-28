@@ -24,5 +24,7 @@ namespace WixServer.Models
         public System.Data.Entity.DbSet<WixServer.Models.Table> Tables { get; set; }
         public System.Data.Entity.DbSet<WixServer.Models.GridItem> GridItems { get; set; }
         public System.Data.Entity.DbSet<WixServer.Models.GridItemType> GridItemTypes { get; set; }
+
+        public System.Data.Entity.DbSet<WixServer.Models.Order> Orders { get; set; }
     }
 }

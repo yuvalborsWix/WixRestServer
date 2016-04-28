@@ -7,6 +7,9 @@ namespace WixServer.Dtos
 {
     public class GridDto
     {
+        public int Id { get; set; }
+        public int XLen { get; set; }
+        public int YLen { get; set; }
         public List<ItemDto> Items { get; set; }
     }
 

@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\GridsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Dtos\GridDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -106,6 +107,10 @@
     <Compile Include="Migrations\201604201516067_some_data.cs" />
     <Compile Include="Migrations\201604201516067_some_data.Designer.cs">
       <DependentUpon>201604201516067_some_data.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604201614014_grid_size.cs" />
+    <Compile Include="Migrations\201604201614014_grid_size.Designer.cs">
+      <DependentUpon>201604201614014_grid_size.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -137,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604201516067_some_data.resx">
       <DependentUpon>201604201516067_some_data.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604201614014_grid_size.resx">
+      <DependentUpon>201604201614014_grid_size.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

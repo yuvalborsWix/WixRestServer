@@ -14,5 +14,8 @@ namespace WixServer.Models
 
         public string Name { get; set; }
         public bool IsDefault{ get; set; }
+
+        public int XLen { get; set; }
+        public int YLen { get; set; }
     }
 }
