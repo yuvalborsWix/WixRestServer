@@ -22,7 +22,7 @@
 
         [ResponseType(typeof(GridDto))]
         public IHttpActionResult GetGrid(string userName, string password)
-        {
+        { 
             // TODO: change the signature of this mathod to be meaningful
             userName = "sergey@gmail.com";
             password = "Aa123456";
