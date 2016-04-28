@@ -9,6 +9,8 @@
     using System.Web.Http.Description;
     using Dtos;
     using Models;
+    using System.Data.Entity.Infrastructure;
+    using System.Net;
 
     public class GridsController : ApiController
     {
@@ -22,7 +24,7 @@
 
         [ResponseType(typeof(GridDto))]
         public IHttpActionResult GetGrid(string userName, string password)
-        { 
+        {
             // TODO: change the signature of this mathod to be meaningful
             userName = "sergey@gmail.com";
             password = "Aa123456";
@@ -73,7 +75,7 @@
                 gridDto.Items.Add(tableDto);
             });
 
-            gridItems.ForEach(gridItem => 
+            gridItems.ForEach(gridItem =>
             {
                 var gridItemDto = new GridItemDto
                 {
@@ -96,7 +98,6 @@
         }
 
         // POST: api/Grids
-        [ResponseType(typeof(Grid))]
         public IHttpActionResult PostGrid(int restaurantId, long date, int gridType, string name, bool isDefault, int xlen, int ylen)
         {
             // Retrieve the max id
@@ -164,6 +165,40 @@
         private bool GridExists(int id)
         {
             return db.Grids.Count(e => e.Id == id) > 0;
+        }
+
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutGrid(int id, Grid grid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != grid.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(grid).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!GridExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }
