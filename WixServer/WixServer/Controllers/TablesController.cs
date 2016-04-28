@@ -18,15 +18,47 @@ namespace WixServer.Controllers
 
         // GET: api/Tables/5
         [ResponseType(typeof(Table))]
-        public IHttpActionResult GetTable(int id)
+        public IHttpActionResult GetTable(int gridId, int xCoord, int yCoord)
         {
-            Table table = db.Tables.Find(id);
+            Table table = db.Tables.Where(x => x.GridId == gridId && x.xCoord == xCoord && x.yCoord == yCoord).FirstOrDefault();
+
             if (table == null)
             {
                 return NotFound();
             }
 
             return Ok(table);
+        }
+
+        // POST: api/Tables
+        [ResponseType(typeof(Table))]
+        public IHttpActionResult PostTable(int gridId, int tableNumber, int capacity, bool isSmokingAllowed, int xCoord, int yCoord, int xLength, int yLength)
+        {
+            // Retrieve the max id
+            var id = db.Tables.Max(x => x.Id) + 1;
+
+            var table = new Table
+            {
+                Id = id,
+                Capacity = capacity,
+                GridId = gridId,
+                IsSmokingAllowed = isSmokingAllowed,
+                TableNumber = tableNumber,
+                xCoord = xCoord,
+                yCoord = yCoord,
+                xLength = xLength,
+                yLength = yLength
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Tables.Add(table);
+            db.SaveChanges();
+
+            return Ok();
         }
 
         // PUT: api/Tables/5
@@ -62,21 +94,6 @@ namespace WixServer.Controllers
             }
 
             return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Tables
-        [ResponseType(typeof(Table))]
-        public IHttpActionResult PostTable(Table table)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Tables.Add(table);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = table.Id }, table);
         }
 
         // DELETE: api/Tables/5

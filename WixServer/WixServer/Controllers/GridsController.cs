@@ -153,20 +153,6 @@
             return Ok(grid);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool GridExists(int id)
-        {
-            return db.Grids.Count(e => e.Id == id) > 0;
-        }
-
         [ResponseType(typeof(void))]
         public IHttpActionResult PutGrid(int id, Grid grid)
         {
@@ -199,6 +185,20 @@
             }
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private bool GridExists(int id)
+        {
+            return db.Grids.Count(e => e.Id == id) > 0;
         }
     }
 }
