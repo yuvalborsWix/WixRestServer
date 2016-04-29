@@ -14,6 +14,9 @@ namespace WixServer.Controllers
 {
     public class OrdersController : ApiController
     {
+        // TODO: move to properties file or make const class
+        const int RESERVATION_TIME_IN_MINUTES = 180;
+
         private WixServerContext db = new WixServerContext();
 
         // GET: api/Orders
@@ -24,9 +27,11 @@ namespace WixServer.Controllers
 
         // GET: api/Orders/5
         [ResponseType(typeof(Order))]
-        public IHttpActionResult GetOrder(int id)
+        public IHttpActionResult GetOrder(int customerId)
         {
-            Order order = db.Orders.Find(id);
+            // TODO: allow only one order from each customer?
+            Order order = db.Orders.Where(x => x.CustomerId == customerId).FirstOrDefault();
+            
             if (order == null)
             {
                 return NotFound();
@@ -69,20 +74,52 @@ namespace WixServer.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
-        // POST: api/Orders
-        [ResponseType(typeof(Order))]
-        public IHttpActionResult PostOrder(Order order)
+        
+        public IHttpActionResult PostOrder(int gridID, int tableNum, int customerID, int numOfPpl, DateTime reservationTime)
         {
-            if (!ModelState.IsValid)
+            // TODO: allow only one order from each customer?
+            if (db.Orders.Where(x => x.CustomerId == customerID).FirstOrDefault() != null)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Same person cannot reserve twice!");
             }
+
+            Order order = new Order
+            {
+                GridId = gridID,
+                TableNumber = tableNum,
+                CustomerId = customerID,
+                NumOfPeople = numOfPpl,
+                FromTime = reservationTime,
+                ToTime = reservationTime.AddMinutes(RESERVATION_TIME_IN_MINUTES)
+            };
+            
+            db.Orders.Add(order);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        // Gettig order by customer id and he may change anything else.
+        public IHttpActionResult UpdateOrder(int gridID, int tableNum, int customerID, int numOfPpl, DateTime reservationTime)
+        {
+            // TODO: allow only one order from each customer?
+            Order order = db.Orders.Where(x => x.CustomerId == customerID).FirstOrDefault();
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            order.GridId = gridID;
+            order.TableNumber = tableNum;
+            order.NumOfPeople = numOfPpl;
+            order.FromTime = reservationTime;
+            order.ToTime = reservationTime.AddMinutes(RESERVATION_TIME_IN_MINUTES);
 
             db.Orders.Add(order);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = order.Id }, order);
+            return Ok();
         }
 
         // DELETE: api/Orders/5

@@ -108,14 +108,6 @@
     <Compile Include="Migrations\201604201511558_Intial.Designer.cs">
       <DependentUpon>201604201511558_Intial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604201516067_some_data.cs" />
-    <Compile Include="Migrations\201604201516067_some_data.Designer.cs">
-      <DependentUpon>201604201516067_some_data.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604201614014_grid_size.cs" />
-    <Compile Include="Migrations\201604201614014_grid_size.Designer.cs">
-      <DependentUpon>201604201614014_grid_size.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Grid.cs" />
@@ -143,12 +135,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604201511558_Intial.resx">
       <DependentUpon>201604201511558_Intial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604201516067_some_data.resx">
-      <DependentUpon>201604201516067_some_data.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604201614014_grid_size.resx">
-      <DependentUpon>201604201614014_grid_size.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
