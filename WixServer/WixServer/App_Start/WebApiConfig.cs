@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace WixServer
 {
@@ -10,6 +11,12 @@ namespace WixServer
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+
+            // TODO: Init in integration
+            var clientUrl = string.Empty;
+
+            var cors = new EnableCorsAttribute(clientUrl, "*", "*");
+            config.EnableCors(cors);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
