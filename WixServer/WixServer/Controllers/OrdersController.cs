@@ -76,6 +76,8 @@ namespace WixServer.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        // for problems with the dateTime web api caster
+        //http://stackoverflow.com/questions/5523870/pass-a-datetime-from-javascript-to-c-sharp-controller
         [Route("api/Orders/{gridID}/{tableNum}/{customerID}/{numOfPpl}/{reservationTime}")]
         public IHttpActionResult PostOrder(int gridID, int tableNum, int customerID, int numOfPpl, DateTime reservationTime)
         {
@@ -101,6 +103,7 @@ namespace WixServer.Controllers
             return Ok();
         }
 
+        [ResponseType(typeof(void))]
         [Route("api/Orders/Update/{gridID}/{tableNum}/{customerID}/{numOfPpl}/{reservationTime}")]
         // Gettig order by customer id and he may change anything else.
         public IHttpActionResult UpdateOrder(int gridID, int tableNum, int customerID, int numOfPpl, DateTime reservationTime)
@@ -122,7 +125,8 @@ namespace WixServer.Controllers
             db.Orders.Add(order);
             db.SaveChanges();
 
-            return Ok();
+            return StatusCode(HttpStatusCode.NoContent);
+            //return Ok();
         }
 
         // DELETE: api/Orders/5
