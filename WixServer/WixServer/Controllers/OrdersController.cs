@@ -26,6 +26,7 @@ namespace WixServer.Controllers
         }
 
         // GET: api/Orders/5
+        [Route("api/Orders/{customerId}")]
         [ResponseType(typeof(Order))]
         public IHttpActionResult GetOrder(int customerId)
         {
@@ -74,7 +75,8 @@ namespace WixServer.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-        
+
+        [Route("api/Orders/{gridID}/{tableNum}/{customerID}/{numOfPpl}/{reservationTime}")]
         public IHttpActionResult PostOrder(int gridID, int tableNum, int customerID, int numOfPpl, DateTime reservationTime)
         {
             // TODO: allow only one order from each customer?
@@ -99,6 +101,7 @@ namespace WixServer.Controllers
             return Ok();
         }
 
+        [Route("api/Orders/Update/{gridID}/{tableNum}/{customerID}/{numOfPpl}/{reservationTime}")]
         // Gettig order by customer id and he may change anything else.
         public IHttpActionResult UpdateOrder(int gridID, int tableNum, int customerID, int numOfPpl, DateTime reservationTime)
         {

@@ -16,6 +16,7 @@ namespace WixServer.Controllers
     {
         private WixServerContext db = new WixServerContext();
 
+        [Route("api/RestaurantOwners/{userName}/{password}")]
         [ResponseType(typeof(RestaurantOwner))]
         public IHttpActionResult GetRestaurantOwner(string userName, string password)
         {
@@ -28,7 +29,7 @@ namespace WixServer.Controllers
             return Ok(restaurantOwner);
         }
 
-        // POST: api/RestaurantOwners
+        [Route("api/RestaurantOwners/{name}/{restaurantId}/{userName}/{password}")]
         [ResponseType(typeof(RestaurantOwner))]
         public IHttpActionResult PostRestaurantOwner(string name, int restaurantId, string userName, string password)
         {

@@ -22,6 +22,7 @@
             return db.Grids;
         }
 
+        [Route("api/Grids/{userName}/{password}")]
         [ResponseType(typeof(GridDto))]
         public IHttpActionResult GetGrid(string userName, string password)
         {
@@ -98,6 +99,7 @@
         }
 
         // POST: api/Grids
+        [Route("api/Grids/{restaurantId}/{date}/{gridType}/{name}/{isDefault}/{xlen}/{ylen}")]
         public IHttpActionResult PostGrid(int restaurantId, long date, int gridType, string name, bool isDefault, int xlen, int ylen)
         {
             // Retrieve the max id

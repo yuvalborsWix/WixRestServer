@@ -16,7 +16,7 @@ namespace WixServer.Controllers
     {
         private WixServerContext db = new WixServerContext();
 
-        // GET: api/GridItems/5
+        [Route("api/GridItems/{gridId}/{xCoord}/{yCoord}")]
         [ResponseType(typeof(GridItem))]
         public IHttpActionResult GetGridItem(int gridId, int xCoord, int yCoord)
         {
@@ -29,7 +29,7 @@ namespace WixServer.Controllers
             return Ok(gridItem);
         }
 
-        // POST: api/GridItems
+        [Route("api/GridItems/{gridId}/{itemTypeId}/{xCoord}/{yCoord}")]
         [ResponseType(typeof(GridItem))]
         public IHttpActionResult PostGridItem(int gridId, int itemTypeId, int xCoord, int yCoord)
         {

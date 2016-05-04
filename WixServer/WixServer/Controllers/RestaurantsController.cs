@@ -16,7 +16,7 @@ namespace WixServer.Controllers
     {
         private WixServerContext db = new WixServerContext();
 
-        // GET: api/Restaurants/5
+        [Route("api/Restaurants/{name}")]
         [ResponseType(typeof(Restaurant))]
         public IHttpActionResult GetRestaurant(string name)
         {
@@ -29,7 +29,7 @@ namespace WixServer.Controllers
             return Ok(restaurant);
         }
 
-        // POST: api/Restaurants
+        [Route("api/Restaurants/{name}")]
         [ResponseType(typeof(Restaurant))]
         public IHttpActionResult PostRestaurant(string name)
         {

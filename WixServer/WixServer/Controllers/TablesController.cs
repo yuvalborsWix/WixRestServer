@@ -16,7 +16,7 @@ namespace WixServer.Controllers
     {
         private WixServerContext db = new WixServerContext();
 
-        // GET: api/Tables/5
+        [Route("api/Tables/{gridId}/{xCoord}/{yCoord}")]
         [ResponseType(typeof(Table))]
         public IHttpActionResult GetTable(int gridId, int xCoord, int yCoord)
         {
@@ -30,7 +30,7 @@ namespace WixServer.Controllers
             return Ok(table);
         }
 
-        // POST: api/Tables
+        [Route("api/Tables/{gridId}/{tableNumber}/{capacity}/{isSmokingAllowed}/{xCoord}/{yCoord}/{xLength}/{yLength}")]
         [ResponseType(typeof(Table))]
         public IHttpActionResult PostTable(int gridId, int tableNumber, int capacity, bool isSmokingAllowed, int xCoord, int yCoord, int xLength, int yLength)
         {

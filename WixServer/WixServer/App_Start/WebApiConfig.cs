@@ -13,7 +13,7 @@ namespace WixServer
             // Web API configuration and services
 
             // TODO: Init in integration
-            var clientUrl = string.Empty;
+            var clientUrl = "http://localhost:54603";
 
             var cors = new EnableCorsAttribute(clientUrl, "*", "*");
             config.EnableCors(cors);
