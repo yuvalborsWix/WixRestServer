@@ -116,6 +116,10 @@
     <Compile Include="Migrations\201604201511558_Intial.Designer.cs">
       <DependentUpon>201604201511558_Intial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605120907435_cahnge.cs" />
+    <Compile Include="Migrations\201605120907435_cahnge.Designer.cs">
+      <DependentUpon>201605120907435_cahnge.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Grid.cs" />
@@ -143,6 +147,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604201511558_Intial.resx">
       <DependentUpon>201604201511558_Intial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605120907435_cahnge.resx">
+      <DependentUpon>201605120907435_cahnge.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

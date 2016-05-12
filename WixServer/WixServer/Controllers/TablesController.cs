@@ -30,6 +30,20 @@ namespace WixServer.Controllers
             return Ok(table);
         }
 
+        [Route("api/Tables/{gridId}")]
+        [ResponseType(typeof(Table))]
+        public IHttpActionResult GetTablesByGridId(int gridId)
+        {
+            var tables = db.Tables.Where(x => x.GridId == gridId).ToList();
+
+            if (tables == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tables);
+        }
+
         [Route("api/Tables/{gridId}/{tableNumber}/{capacity}/{isSmokingAllowed}/{xCoord}/{yCoord}/{xLength}/{yLength}")]
         [ResponseType(typeof(Table))]
         public IHttpActionResult PostTable(int gridId, int tableNumber, int capacity, bool isSmokingAllowed, int xCoord, int yCoord, int xLength, int yLength)
