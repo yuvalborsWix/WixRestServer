@@ -31,7 +31,7 @@ namespace WixServer.Controllers
         }
 
         [Route("api/Tables/{gridId}")]
-        [ResponseType(typeof(Table))]
+        [ResponseType(typeof(List<Table>))]
         public IHttpActionResult GetTablesByGridId(int gridId)
         {
             var tables = db.Tables.Where(x => x.GridId == gridId).ToList();

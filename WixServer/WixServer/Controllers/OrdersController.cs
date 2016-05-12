@@ -32,13 +32,27 @@ namespace WixServer.Controllers
         {
             // TODO: allow only one order from each customer?
             Order order = db.Orders.Where(x => x.CustomerId == customerId).FirstOrDefault();
-            
+
             if (order == null)
             {
                 return NotFound();
             }
 
             return Ok(order);
+        }
+
+        [Route("api/Orders/{gridId}")]
+        [ResponseType(typeof(List<Order>))]
+        public IHttpActionResult GetOrdersByGridId(int gridId)
+        {
+            var orders = db.Orders.Where(x => x.GridId == gridId).ToList();
+            
+            if (orders == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(orders);
         }
 
         // PUT: api/Orders/5
