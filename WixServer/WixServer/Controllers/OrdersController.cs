@@ -6,6 +6,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WixServer.Models;
@@ -115,6 +117,47 @@ namespace WixServer.Controllers
             db.SaveChanges();
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Sends a mail with gmail account
+        /// </summary>
+        /// <param name="toAddress">The reciever</param>
+        /// <param name="subject">subject</param>
+        /// <param name="body">mail body</param>
+        /// <returns></returns>
+        private bool SendMail(string toAddress, string subject, string body)
+        {
+            try
+            {
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                client.EnableSsl = true;
+                client.Timeout = 10000;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+
+                // TODO: Configure the right user name and password
+                var companyUserName = "xxx@gmail.com";
+                var companyPassword = "Aa123456";
+
+                var companyMailAddress = "xxx@gmail.com";
+
+                client.Credentials = new NetworkCredential(companyUserName, companyPassword);
+
+                MailMessage mailMessage = new MailMessage(companyMailAddress, toAddress, subject, body);
+                mailMessage.BodyEncoding = Encoding.UTF8;
+                mailMessage.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                client.Send(mailMessage);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         [ResponseType(typeof(void))]
