@@ -44,9 +44,9 @@ namespace WixServer.Controllers
         }
 
         // GET: api/Orders/5
-        [Route("api/Orders/{gridId}/{date}")]
+        [Route("api/GetAdminOrders/{gridId}")]
         [ResponseType(typeof(List<OrderDto>))]
-        public IHttpActionResult GetOrdersByDateAndHours(int gridId, DateTime date)
+        public IHttpActionResult GetOrdersByDateAndHours(int gridId)
         {
             Grid grid = db.Grids.Where(x => x.Id == gridId).FirstOrDefault();
 
