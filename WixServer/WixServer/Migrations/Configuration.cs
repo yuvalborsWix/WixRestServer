@@ -31,6 +31,16 @@ namespace WixServer.Migrations
                 new Models.RestaurantOwner() { Id = 1, RestaurantId = 1, Name = "Sergey", UserName = "sergey@gmail.com", Password = "Aa123456" }
             );
 
+            context.Orders.AddOrUpdate(x => x.Id,
+                new Models.Order() { Id = 1, CustomerId = 1, FromTime = new DateTime(2016, 5, 28), ToTime = new DateTime(2016, 5, 28), GridId = 1, NumOfPeople = 5, TableNumber = 1 },
+                new Models.Order() { Id = 2, CustomerId = 2, FromTime = new DateTime(2016, 4, 28), ToTime = new DateTime(2016, 4, 28), GridId = 1, NumOfPeople = 4, TableNumber = 3 }
+            );
+
+            context.Customers.AddOrUpdate(x => x.Id,
+                new Models.Customer() { Id = 1, Name = "yuval", PhoneNumber = "098789" },
+                new Models.Customer() { Id = 2, Name = "daniel", PhoneNumber = "755775" }
+            );
+
             context.Grids.AddOrUpdate(x => x.Id,
                 new Models.Grid() { Id = 1, RestaurantId = 1, GridType = 1, Date = DateTime.Now, Name = "cool_grid", IsDefault = true }
             );
