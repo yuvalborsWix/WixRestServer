@@ -120,6 +120,14 @@
     <Compile Include="Migrations\201605120907435_cahnge.Designer.cs">
       <DependentUpon>201605120907435_cahnge.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605280915408_customer_table.cs" />
+    <Compile Include="Migrations\201605280915408_customer_table.Designer.cs">
+      <DependentUpon>201605280915408_customer_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605280959373_changePhoneNumber.cs" />
+    <Compile Include="Migrations\201605280959373_changePhoneNumber.Designer.cs">
+      <DependentUpon>201605280959373_changePhoneNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Grid.cs" />
@@ -150,6 +158,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605120907435_cahnge.resx">
       <DependentUpon>201605120907435_cahnge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605280915408_customer_table.resx">
+      <DependentUpon>201605280915408_customer_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605280959373_changePhoneNumber.resx">
+      <DependentUpon>201605280959373_changePhoneNumber.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

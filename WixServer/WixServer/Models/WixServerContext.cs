@@ -28,5 +28,6 @@ namespace WixServer.Models
         public System.Data.Entity.DbSet<WixServer.Models.Order> Orders { get; set; }
 
         public System.Data.Entity.DbSet<WixServer.Models.Restaurant> Restaurants { get; set; }
+        public System.Data.Entity.DbSet<WixServer.Models.Customer> Customers { get; set; }
     }
 }

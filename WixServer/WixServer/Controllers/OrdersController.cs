@@ -43,6 +43,47 @@ namespace WixServer.Controllers
             return Ok(order);
         }
 
+        // GET: api/Orders/5
+        [Route("api/Orders/{gridId}/{date}")]
+        [ResponseType(typeof(List<OrderDto>))]
+        public IHttpActionResult GetOrdersByDateAndHours(int gridId, DateTime date)
+        {
+            Grid grid = db.Grids.Where(x => x.Id == gridId).FirstOrDefault();
+
+            if (grid == null)
+            {
+                return NotFound();
+            }
+
+            var gridDate = grid.Date;
+
+            // TODO: allow only one order from each customer?
+            List<Order> orders = db.Orders.Where(x => x.GridId == gridId).ToList();
+
+            List<OrderDto> ordersDtoList = new List<OrderDto>();
+
+            if (orders == null)
+            {
+                return NotFound();
+            }
+
+            orders.ForEach(x =>
+            {
+                var orderDto = new OrderDto { Date = grid.Date, FromTime = x.FromTime, ToTime = x.ToTime, NumOfPeople = x.NumOfPeople, TableNumber = x.TableNumber };
+
+                Customer customer = db.Customers.FirstOrDefault(y => y.Id == x.CustomerId);
+
+                if (customer == null) return;
+
+                orderDto.CustomerName = customer.Name;
+                orderDto.CustomerPhone = customer.PhoneNumber;
+
+                ordersDtoList.Add(orderDto);
+            });
+
+            return Ok(ordersDtoList);
+        }
+
         [Route("api/Orders/{gridId}")]
         [ResponseType(typeof(List<Order>))]
         public IHttpActionResult GetOrdersByGridId(int gridId)
@@ -215,5 +256,16 @@ namespace WixServer.Controllers
         {
             return db.Orders.Count(e => e.Id == id) > 0;
         }
+    }
+
+    public class OrderDto
+    {
+        public DateTime Date { get; set; }
+        public int TableNumber { get; set; }
+        public DateTime FromTime { get; set; }
+        public DateTime ToTime { get; set; }
+        public int NumOfPeople { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerPhone { get; set; }
     }
 }
