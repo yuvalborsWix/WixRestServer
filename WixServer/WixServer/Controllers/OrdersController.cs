@@ -135,20 +135,29 @@ namespace WixServer.Controllers
 
         // for problems with the dateTime web api caster
         //http://stackoverflow.com/questions/5523870/pass-a-datetime-from-javascript-to-c-sharp-controller
-        [Route("api/Orders/{gridID}/{tableNum}/{customerID}/{numOfPpl}/{reservationTime}")]
-        public IHttpActionResult PostOrder(int gridID, int tableNum, int customerID, int numOfPpl, DateTime reservationTime)
+        [Route("api/Orders/{gridID}/{tableNum}/{customerName}/{phoneNum}/{numOfPpl}/{reservationTime}")]
+        public IHttpActionResult PostOrder(int gridID, int tableNum, String customerName, String phoneNum, int numOfPpl, DateTime reservationTime)
         {
-            // TODO: allow only one order from each customer?
-            if (db.Orders.Where(x => x.CustomerId == customerID).FirstOrDefault() != null)
+            // get customer by phone and name
+            var customer = db.Customers.Where(x => x.Name == customerName && x.PhoneNumber == phoneNum).FirstOrDefault();
+
+            if (customer == null)
             {
-                return BadRequest("Same person cannot reserve twice!");
+                customer = new Customer
+                {
+                    Name = customerName,
+                    PhoneNumber = phoneNum
+                };
+
+                db.Customers.Add(customer);
+                db.SaveChanges();
             }
 
             Order order = new Order
             {
                 GridId = gridID,
                 TableNumber = tableNum,
-                CustomerId = customerID,
+                CustomerId = customer.Id,
                 NumOfPeople = numOfPpl,
                 FromTime = reservationTime,
                 ToTime = reservationTime.AddMinutes(RESERVATION_TIME_IN_MINUTES)
