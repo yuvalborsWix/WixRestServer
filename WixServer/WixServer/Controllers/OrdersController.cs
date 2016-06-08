@@ -139,10 +139,11 @@ namespace WixServer.Controllers
         [HttpPost]
         public IHttpActionResult PostOrder(Order data)
         {
-            /*
+            
             //(int gridID, int tableNum, String customerName, String phoneNum, int numOfPpl, DateTime reservationTime)
             //[Route("api/Orders/{gridID}/{tableNum}/{customerName}/{phoneNum}/{numOfPpl}/{reservationTime}")]
             // get customer by phone and name
+            /*
             var customer = db.Customers.Where(x => x.Name == customerName && x.PhoneNumber == phoneNum).FirstOrDefault();
 
             if (customer == null)
@@ -156,19 +157,19 @@ namespace WixServer.Controllers
                 db.Customers.Add(customer);
                 db.SaveChanges();
             }
-
+            */
             Order order = new Order
             {
-                GridId = gridID,
-                TableNumber = tableNum,
-                CustomerId = customer.Id,
-                NumOfPeople = numOfPpl,
-                FromTime = reservationTime,
-                ToTime = reservationTime.AddMinutes(RESERVATION_TIME_IN_MINUTES)
-            };*/
+                GridId = data.GridId,
+                TableNumber = data.TableNumber,
+                CustomerId = data.CustomerId,
+                NumOfPeople = data.NumOfPeople,
+                FromTime = DateTime.Now,
+                ToTime = DateTime.Now.AddMinutes(RESERVATION_TIME_IN_MINUTES)
+            };
             
-            //db.Orders.Add(order);
-            db.Orders.Add(data);
+            db.Orders.Add(order);
+            //db.Orders.Add(data);
             db.SaveChanges();
 
             return Ok();
