@@ -42,7 +42,7 @@ namespace WixServer.Migrations
             );
 
             context.Grids.AddOrUpdate(x => x.Id,
-                new Models.Grid() { Id = 1, RestaurantId = 1, GridType = 1, Date = DateTime.Now, Name = "cool_grid", IsDefault = true }
+                new Models.Grid() { Id = 1, RestaurantId = 1, GridType = 1, Date = DateTime.Now, Name = "cool_grid", IsDefault = true, XLen = 12, YLen = 12 }
             );
 
             context.Tables.AddOrUpdate(x => x.Id,
