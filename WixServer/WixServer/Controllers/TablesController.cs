@@ -45,15 +45,14 @@ namespace WixServer.Controllers
         }
 
         [Route("api/Tables/{gridId}/{tableNumber}/{capacity}/{isSmokingAllowed}/{xCoord}/{yCoord}/{xLength}/{yLength}")]
-        [ResponseType(typeof(Table))]
         public IHttpActionResult PostTable(int gridId, int tableNumber, int capacity, bool isSmokingAllowed, int xCoord, int yCoord, int xLength, int yLength)
         {
             // Retrieve the max id
-            var id = db.Tables.Max(x => x.Id) + 1;
+            //var id = db.Tables.Max(x => x.Id) + 1;
 
             var table = new Table
             {
-                Id = id,
+                //Id = id,
                 Capacity = capacity,
                 GridId = gridId,
                 IsSmokingAllowed = isSmokingAllowed,
