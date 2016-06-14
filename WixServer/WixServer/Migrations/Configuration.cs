@@ -55,8 +55,8 @@ namespace WixServer.Migrations
             );
 
             context.GridItems.AddOrUpdate(x => x.Id,
-                new Models.GridItem() { Id = 1, GridId = 1, ItemTypeId = 1, xCoord = 8, yCoord = 6 },
-                new Models.GridItem() { Id = 2, GridId = 1, ItemTypeId = 1, xCoord = 2, yCoord = 4 }
+                new Models.GridItem() { Id = 1, GridId = 1, ItemTypeId = 1, xCoord = 8, yCoord = 6, Name="table" },
+                new Models.GridItem() { Id = 2, GridId = 1, ItemTypeId = 1, xCoord = 2, yCoord = 4, Name = "table" }
             );
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WixServer.Models;
 
 namespace WixServer.Dtos
 {
@@ -11,6 +12,7 @@ namespace WixServer.Dtos
         public int XLen { get; set; }
         public int YLen { get; set; }
         public List<ItemDto> Items { get; set; }
+        public List<GridItem> simpleItems { get; set; }
     }
 
     public class ItemDto

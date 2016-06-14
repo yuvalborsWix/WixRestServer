@@ -55,6 +55,8 @@
 
             GridDto gridDto = new GridDto();
 
+            gridDto.simpleItems = gridItems;
+
             gridDto.XLen = grid.XLen;
             gridDto.YLen = grid.YLen;
             gridDto.Id = grid.Id;
@@ -77,25 +79,6 @@
                 gridDto.Items.Add(tableDto);
             });
 
-            gridItems.ForEach(gridItem =>
-            {
-                var gridItemDto = new GridItemDto
-                {
-                    X = gridItem.xCoord,
-                    Y = gridItem.yCoord,
-                };
-
-                var gridItemType = db.GridItemTypes.Where(x => gridItem.ItemTypeId == x.Id).FirstOrDefault();
-
-                if (gridItemType == null) return;
-
-                gridItemDto.Name = gridItemType.Name;
-                gridItemDto.XLen = gridItemType.xLength;
-                gridItemDto.YLen = gridItemType.yLength;
-
-                gridDto.Items.Add(gridItemDto);
-            });
-
             return Ok(gridDto);
         }
 
@@ -112,7 +95,7 @@
             }
 
             // Retrieve the max id
-            var id = db.Grids.Max(x => x.Id) + 1;
+            //var id = db.Grids.Max(x => x.Id) + 1;
 
             // To transfer the parameters to a grid
             //Grid grid = new Grid
@@ -129,7 +112,7 @@
 
             Grid grid = new Grid
             {
-                Id = id,
+                //Id = id,
                 RestaurantId = restaurantId,
                 Date = DateTime.Now,
                 GridType = gridType,
@@ -147,14 +130,14 @@
             }
             catch (Exception e)
             {
-                if (!GridExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!GridExists(id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
             }
 
             return Ok(grid.Id);
