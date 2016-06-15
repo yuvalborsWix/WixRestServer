@@ -34,6 +34,7 @@ namespace WixServer.Dtos
         public int TableNumber { get; set; }
         public bool SmokingAllowed { get; set; }
         public int MaxCapacity { get; set; }
+        public bool Taken { get; set; }
     }
 
 

@@ -53,6 +53,8 @@
 
             var gridItems = db.GridItems.Where(x => x.GridId == grid.Id).ToList();
 
+            var orders = db.Orders.Where(x => x.GridId == grid.Id).ToList();
+
             GridDto gridDto = new GridDto();
 
             gridDto.simpleItems = gridItems;
@@ -75,6 +77,8 @@
                     XLen = table.xLength,
                     YLen = table.yLength
                 };
+
+                tableDto.Taken = orders.Where(x => x.TableNumber == tableDto.TableNumber).FirstOrDefault() != null;
 
                 gridDto.Items.Add(tableDto);
             });
