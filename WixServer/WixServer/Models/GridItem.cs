@@ -12,5 +12,6 @@ namespace WixServer.Models
         public int ItemTypeId { get; set; }
         public int xCoord { get; set; }
         public int yCoord { get; set; }
+        public string Name { get; set; }
     }
 }

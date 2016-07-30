@@ -29,20 +29,21 @@ namespace WixServer.Controllers
             return Ok(gridItem);
         }
 
-        [Route("api/GridItems/{gridId}/{itemTypeId}/{xCoord}/{yCoord}")]
+        [Route("api/GridItems/{gridId}/{itemTypeId}/{xCoord}/{yCoord}/{name}")]
         [ResponseType(typeof(GridItem))]
-        public IHttpActionResult PostGridItem(int gridId, int itemTypeId, int xCoord, int yCoord)
+        public IHttpActionResult PostGridItem(int gridId, int itemTypeId, int xCoord, int yCoord, string name)
         {
             // Retrieve the max id
-            var id = db.GridItems.Max(x => x.Id) + 1;
+            //var id = db.GridItems.Max(x => x.Id) + 1;
 
             GridItem gridItem = new GridItem
             {
-                Id = id,
+                //Id = id,
                 GridId = gridId,
                 ItemTypeId = itemTypeId,
                 xCoord = xCoord,
-                yCoord = yCoord
+                yCoord = yCoord,
+                Name = name
             };
 
             if (!ModelState.IsValid)

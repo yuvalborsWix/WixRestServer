@@ -129,6 +129,10 @@
     <Compile Include="Migrations\201605280959373_changePhoneNumber.Designer.cs">
       <DependentUpon>201605280959373_changePhoneNumber.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606140932514_add_photo_name.cs" />
+    <Compile Include="Migrations\201606140932514_add_photo_name.Designer.cs">
+      <DependentUpon>201606140932514_add_photo_name.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Grid.cs" />
@@ -165,6 +169,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605280959373_changePhoneNumber.resx">
       <DependentUpon>201605280959373_changePhoneNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606140932514_add_photo_name.resx">
+      <DependentUpon>201606140932514_add_photo_name.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
