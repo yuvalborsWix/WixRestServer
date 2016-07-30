@@ -22,9 +22,9 @@
             return db.Grids;
         }
 
-        [Route("api/Grids/{restaurantId}")]
+        [Route("api/Grids/{restaurantId}/{date}")]
         [ResponseType(typeof(GridDto))]
-        public IHttpActionResult GetGrid(int restaurantId)
+        public IHttpActionResult GetGrid(int restaurantId,string date)
         {
             // TODO: change the signature of this mathod to be meaningful
             //userName = "sergey@gmail.com";
@@ -39,10 +39,10 @@
 
             //var restaurantId = restaurantOwner.RestaurantId;
 
-            var today = DateTime.Now.Date;
+            var today = Convert.ToDateTime(date);
 
-            //var grid = db.Grids.Where(x => DbFunctions.TruncateTime(x.Date).Value == today && x.RestaurantId == restaurantId).FirstOrDefault();
-            var grid = db.Grids.Where(x => x.RestaurantId == restaurantId).FirstOrDefault();
+            var grid = db.Grids.Where(x => DbFunctions.TruncateTime(x.Date).Value == today && x.RestaurantId == restaurantId).FirstOrDefault();
+            //var grid = db.Grids.Where(x => x.RestaurantId == restaurantId).FirstOrDefault();
 
             if (grid == null)
             {
@@ -89,17 +89,17 @@
         // POST: api/Grids
         [Route("api/Grids/{restaurantId}/{date}/{gridType}/{name}/{isDefault}/{xlen}/{ylen}")]
         [ResponseType(typeof(int))]
-        public IHttpActionResult PostGrid(int restaurantId, long date, int gridType, string name, bool isDefault, int xlen, int ylen)
+        public IHttpActionResult PostGrid(int restaurantId, string date, int gridType, string name, bool isDefault, int xlen, int ylen)
         {
-            var gridToDelete = db.Grids.Where(x => x.RestaurantId == 10).FirstOrDefault();
-            if (gridToDelete != null)
-            {
-                db.Grids.Remove(gridToDelete);
-                db.SaveChanges();
-            }
+            //var gridToDelete = db.Grids.Where(x => x.RestaurantId == 10).FirstOrDefault();
+            //if (gridToDelete != null)
+            //{
+            //    db.Grids.Remove(gridToDelete);
+            //    db.SaveChanges();
+            //}
 
             // Retrieve the max id
-            //var id = db.Grids.Max(x => x.Id) + 1;
+            var id = db.Grids.Max(x => x.Id) + 1;
 
             // To transfer the parameters to a grid
             //Grid grid = new Grid
@@ -116,9 +116,9 @@
 
             Grid grid = new Grid
             {
-                //Id = id,
+                Id = id,
                 RestaurantId = restaurantId,
-                Date = DateTime.Now,
+                Date = Convert.ToDateTime(date),
                 GridType = gridType,
                 Name = name,
                 IsDefault = isDefault,

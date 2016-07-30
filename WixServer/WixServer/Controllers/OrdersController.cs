@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Mail;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WixServer.Models;
 
@@ -99,6 +100,7 @@ namespace WixServer.Controllers
         }
 
         // PUT: api/Orders/5
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutOrder(int id, Order order)
         {
@@ -135,7 +137,9 @@ namespace WixServer.Controllers
 
         // for problems with the dateTime web api caster
         //http://stackoverflow.com/questions/5523870/pass-a-datetime-from-javascript-to-c-sharp-controller
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route("api/Orders/CreateNewOrder")]
+        //[Route("api/Orders/{gridID}/{tableNum}/{customerName}/{phoneNum}/{numOfPpl}/{reservationTime}")]
         [HttpPost]
         public IHttpActionResult PostOrder(Order data)
         {
