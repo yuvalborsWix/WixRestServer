@@ -11,6 +11,7 @@
     using Models;
     using System.Data.Entity.Infrastructure;
     using System.Net;
+    using Cluster;
 
     public class GridsController : ApiController
     {
@@ -222,6 +223,13 @@
         private bool GridExists(int id)
         {
             return db.Grids.Count(e => e.Id == id) > 0;
+        }
+
+        [Route("api/GetGridCluster")]
+        [ResponseType(typeof(GridDto))]
+        public IHttpActionResult GetGridCluster(int gridId)
+        {
+            return Ok(KMeans.GetKmeansForGrid(gridId));
         }
     }
 }
