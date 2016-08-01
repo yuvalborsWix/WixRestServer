@@ -17,7 +17,7 @@ namespace WixServer.Cluster
             var tables = db.Tables.Where(x => x.GridId == gridId).ToList();
             // get orders of this grid
             var orders = db.Orders.Where(x => x.GridId == gridId).ToList();
-            Console.WriteLine("\nBegin k-means clustering demo\n");
+            //Console.WriteLine("\nBegin k-means clustering demo\n");
 
             // fill data of the tables and orders
             double[][] rawData = new double[tables.Count][];
@@ -34,7 +34,7 @@ namespace WixServer.Cluster
             Console.WriteLine("-------------------");
             ShowData(rawData, 1, true, true);
             */
-            int numClusters = 2;
+            int numClusters = 3;
             //Console.WriteLine("\nSetting numClusters to " + numClusters);
 
             int[] clustering = Cluster(rawData, numClusters); // this is it
@@ -272,23 +272,23 @@ namespace WixServer.Cluster
                     if (data[i][j] >= 0.0) Console.Write(" ");
                     Console.Write(data[i][j].ToString("F" + decimals) + " ");
                 }
-                Console.WriteLine("");
+                //Console.WriteLine("");
             }
-            if (newLine) Console.WriteLine("");
+            //if (newLine) Console.WriteLine("");
         } // ShowData
 
         static void ShowVector(int[] vector, bool newLine)
         {
             for (int i = 0; i < vector.Length; ++i)
                 Console.Write(vector[i] + " ");
-            if (newLine) Console.WriteLine("\n");
+           // if (newLine) Console.WriteLine("\n");
         }
 
         static void ShowClustered(double[][] data, int[] clustering, int numClusters, int decimals)
         {
             for (int k = 0; k < numClusters; ++k)
             {
-                Console.WriteLine("===================");
+                //Console.WriteLine("===================");
                 for (int i = 0; i < data.Length; ++i)
                 {
                     int clusterID = clustering[i];
@@ -299,9 +299,9 @@ namespace WixServer.Cluster
                         if (data[i][j] >= 0.0) Console.Write(" ");
                         Console.Write(data[i][j].ToString("F" + decimals) + " ");
                     }
-                    Console.WriteLine("");
+                    //Console.WriteLine("");
                 }
-                Console.WriteLine("===================");
+                //Console.WriteLine("===================");
             } // k
         }
 
