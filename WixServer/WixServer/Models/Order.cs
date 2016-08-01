@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -14,5 +15,7 @@ namespace WixServer.Models
         public int NumOfPeople { get; set; }
         public DateTime FromTime { get; set; }
         public DateTime ToTime { get; set; }
+        [NotMapped]
+        public String CustomerInfo { get; set; }
     }
 }

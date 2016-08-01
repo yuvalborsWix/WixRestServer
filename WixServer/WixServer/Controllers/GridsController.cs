@@ -23,9 +23,9 @@
             return db.Grids;
         }
 
-        [Route("api/Grids/{restaurantId}/{date}")]
+        [Route("api/Grids/{restaurantId}/{date}/{fromTime}/{toTime}")]
         [ResponseType(typeof(GridDto))]
-        public IHttpActionResult GetGrid(int restaurantId,string date)
+        public IHttpActionResult GetGrid(int restaurantId, string date, string fromTime, string toTime)
         {
             // TODO: change the signature of this mathod to be meaningful
             //userName = "sergey@gmail.com";
@@ -53,8 +53,14 @@
             var tables = db.Tables.Where(x => x.GridId == grid.Id).ToList();
 
             var gridItems = db.GridItems.Where(x => x.GridId == grid.Id).ToList();
+            //************************************************
+            DateTime startDinner = Convert.ToDateTime(date + " " + fromTime.Replace('-', ':'));
+            DateTime endDinner = Convert.ToDateTime(date + " " + toTime.Replace('-', ':'));
+            //check if the table is reserve between times or start/end dinner is part of other dinner
+            var orders = db.Orders.Where(x => x.GridId == grid.Id && ((x.FromTime <= startDinner && x.ToTime > startDinner) ||
+                                                                    (x.FromTime < endDinner && x.ToTime >= endDinner) ||
+                                                                    (x.FromTime >= startDinner && x.ToTime <= endDinner))).ToList();
 
-            var orders = db.Orders.Where(x => x.GridId == grid.Id).ToList();
 
             GridDto gridDto = new GridDto();
 

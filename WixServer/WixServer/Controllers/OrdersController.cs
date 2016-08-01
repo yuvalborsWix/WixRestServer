@@ -143,11 +143,13 @@ namespace WixServer.Controllers
         [HttpPost]
         public IHttpActionResult PostOrder(Order data)
         {
-            
+
             //(int gridID, int tableNum, String customerName, String phoneNum, int numOfPpl, DateTime reservationTime)
             //[Route("api/Orders/{gridID}/{tableNum}/{customerName}/{phoneNum}/{numOfPpl}/{reservationTime}")]
             // get customer by phone and name
-            /*
+
+            string customerName = data.CustomerInfo.ToString().Split('-')[0];
+            string phoneNum = data.CustomerInfo.ToString().Split('-')[1];
             var customer = db.Customers.Where(x => x.Name == customerName && x.PhoneNumber == phoneNum).FirstOrDefault();
 
             if (customer == null)
@@ -161,23 +163,24 @@ namespace WixServer.Controllers
                 db.Customers.Add(customer);
                 db.SaveChanges();
             }
-            */
+
             Order order = new Order
             {
                 GridId = data.GridId,
                 TableNumber = data.TableNumber,
-                CustomerId = data.CustomerId,
+                CustomerId = customer.Id,
                 NumOfPeople = data.NumOfPeople,
-                FromTime = DateTime.Now,
-                ToTime = DateTime.Now.AddMinutes(RESERVATION_TIME_IN_MINUTES)
+                FromTime = Convert.ToDateTime(data.FromTime),
+                ToTime = Convert.ToDateTime(data.ToTime)
             };
-            
+
             db.Orders.Add(order);
             //db.Orders.Add(data);
             db.SaveChanges();
 
             return Ok();
         }
+
 
         /// <summary>
         /// Sends a mail with gmail account
