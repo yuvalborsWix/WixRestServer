@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WixServer.Models;
 
@@ -45,34 +46,53 @@ namespace WixServer.Controllers
         }
 
         [Route("api/Tables/{gridId}/{tableNumber}/{capacity}/{isSmokingAllowed}/{xCoord}/{yCoord}/{xLength}/{yLength}")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PostTable(int gridId, int tableNumber, int capacity, bool isSmokingAllowed, int xCoord, int yCoord, int xLength, int yLength)
         {
-            // Retrieve the max id
-            //var id = db.Tables.Max(x => x.Id) + 1;
-
-            var table = new Table
+     
+            //if (tableToAdd == null)
             {
-                //Id = id,
-                Capacity = capacity,
-                GridId = gridId,
-                IsSmokingAllowed = isSmokingAllowed,
-                TableNumber = tableNumber,
-                xCoord = xCoord,
-                yCoord = yCoord,
-                xLength = xLength,
-                yLength = yLength
-            };
+                var table = new Table
+                {
+                    //Id = id,
+                    Capacity = capacity,
+                    GridId = gridId,
+                    IsSmokingAllowed = isSmokingAllowed,
+                    TableNumber = tableNumber,
+                    xCoord = xCoord,
+                    yCoord = yCoord,
+                    xLength = xLength,
+                    yLength = yLength
+                };
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                db.Tables.Add(table);
+                db.SaveChanges();
             }
-
-            db.Tables.Add(table);
-            db.SaveChanges();
-
             return Ok();
         }
+
+        [ResponseType(typeof(Table))]
+        //public IHttpActionResult DeleteTables(int gridId)
+        //{
+
+        //    //var tableToAdd = db.Tables.Where(x => x.Id == 10 && x.xCoord == xCoord && x.yCoord == yCoord).FirstOrDefault();
+        //    var tablesToDelete = db.Tables.Where(x => x.GridId == gridId);
+        //    if (tablesToDelete.Any())
+        //    {
+
+        //        db.Tables.RemoveRange(tablesToDelete);
+        //        db.SaveChanges();
+        //    }
+
+        //    db.SaveChanges();
+
+        //    return Ok();
+        //}
 
         // PUT: api/Tables/5
         [ResponseType(typeof(void))]
@@ -110,19 +130,34 @@ namespace WixServer.Controllers
         }
 
         // DELETE: api/Tables/5
+        [Route("api/Tables/{gridId}")]
         [ResponseType(typeof(Table))]
-        public IHttpActionResult DeleteTable(int id)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult DeleteTable(int gridId)
         {
-            Table table = db.Tables.Find(id);
-            if (table == null)
+
+            //var tableToAdd = db.Tables.Where(x => x.Id == 10 && x.xCoord == xCoord && x.yCoord == yCoord).FirstOrDefault();
+            var tablesToDelete = db.Tables.Where(x => x.GridId == gridId);
+            if (tablesToDelete.Any())
             {
-                return NotFound();
+
+                db.Tables.RemoveRange(tablesToDelete);
+                db.SaveChanges();
             }
 
-            db.Tables.Remove(table);
             db.SaveChanges();
 
-            return Ok(table);
+            return Ok();
+            //Table table = db.Tables.Find(id);
+            //if (table == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //db.Tables.Remove(table);
+            //db.SaveChanges();
+
+            //return Ok(table);
         }
 
         protected override void Dispose(bool disposing)

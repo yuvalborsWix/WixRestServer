@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WixServer.Models;
 
@@ -31,30 +32,41 @@ namespace WixServer.Controllers
 
         [Route("api/GridItems/{gridId}/{itemTypeId}/{xCoord}/{yCoord}/{name}")]
         [ResponseType(typeof(GridItem))]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PostGridItem(int gridId, int itemTypeId, int xCoord, int yCoord, string name)
         {
             // Retrieve the max id
             //var id = db.GridItems.Max(x => x.Id) + 1;
+            //var gridItemToAdd = db.GridItems.Where(x => x.Id == 10 && x.xCoord == xCoord && x.yCoord == yCoord && x.Name == name).FirstOrDefault();
 
-            GridItem gridItem = new GridItem
+            var gridItemToDelete = db.GridItems.Where(x => x.Id == gridId && x.xCoord == xCoord && x.yCoord == yCoord).FirstOrDefault();
+            if (gridItemToDelete != null)
             {
-                //Id = id,
-                GridId = gridId,
-                ItemTypeId = itemTypeId,
-                xCoord = xCoord,
-                yCoord = yCoord,
-                Name = name
-            };
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
+                db.GridItems.Remove(gridItemToDelete);
+                db.SaveChanges();
             }
+            //if (gridItemToAdd == null)
+            {
+                GridItem gridItem = new GridItem
+                {
+                    //Id = id,
+                    GridId = gridId,
+                    ItemTypeId = itemTypeId,
+                    xCoord = xCoord,
+                    yCoord = yCoord,
+                    Name = name
+                };
 
-            db.GridItems.Add(gridItem);
-            db.SaveChanges();
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            return CreatedAtRoute("DefaultApi", new { id = gridItem.Id }, gridItem);
+                db.GridItems.Add(gridItem);
+                db.SaveChanges();
+            }
+            // return CreatedAtRoute("DefaultApi", new { id = gridItem.Id }, gridItem);
+            return Ok();
         }
 
         // PUT: api/GridItems/5
@@ -93,19 +105,32 @@ namespace WixServer.Controllers
         }
 
         // DELETE: api/GridItems/5
+        [Route("api/GridItems/{gridId}")]
         [ResponseType(typeof(GridItem))]
-        public IHttpActionResult DeleteGridItem(int id)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult DeleteGridItem(int gridId)
         {
-            GridItem gridItem = db.GridItems.Find(id);
-            if (gridItem == null)
+            var gridItemsToDelete = db.GridItems.Where(x => x.GridId == gridId);
+            if (gridItemsToDelete.Any())
             {
-                return NotFound();
+
+                db.GridItems.RemoveRange(gridItemsToDelete);
+                db.SaveChanges();
             }
 
-            db.GridItems.Remove(gridItem);
             db.SaveChanges();
+            return Ok();
+           
+            //GridItem gridItem = db.GridItems.Find(gridId);
+            //if (gridItem == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return Ok(gridItem);
+            //db.GridItems.Remove(gridItem);
+            //db.SaveChanges();
+
+            //return Ok(gridItem);
         }
 
         protected override void Dispose(bool disposing)

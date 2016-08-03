@@ -12,7 +12,8 @@
     using System.Data.Entity.Infrastructure;
     using System.Net;
     using Cluster;
-
+    using System.Data.Entity.Core.Objects;
+    using System.Web.Http.Cors;
     public class GridsController : ApiController
     {
         private WixServerContext db = new WixServerContext();
@@ -24,6 +25,7 @@
         }
 
         [Route("api/Grids/{restaurantId}/{date}/{fromTime}/{toTime}")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [ResponseType(typeof(GridDto))]
         public IHttpActionResult GetGrid(int restaurantId, string date, string fromTime, string toTime)
         {
@@ -94,6 +96,8 @@
         }
 
         // POST: api/Grids
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route("api/Grids/{restaurantId}/{date}/{gridType}/{name}/{isDefault}/{xlen}/{ylen}")]
         [ResponseType(typeof(int))]
         public IHttpActionResult PostGrid(int restaurantId, string date, int gridType, string name, bool isDefault, int xlen, int ylen)
@@ -104,54 +108,62 @@
             //    db.Grids.Remove(gridToDelete);
             //    db.SaveChanges();
             //}
-
-            // Retrieve the max id
-            var id = db.Grids.Max(x => x.Id) + 1;
-
-            // To transfer the parameters to a grid
-            //Grid grid = new Grid
-            //{
-            //    Id = id,
-            //    RestaurantId = restaurantId,
-            //    Date = DateTime.FromBinary(date),
-            //    GridType = gridType,
-            //    Name = name,
-            //    IsDefault = isDefault,
-            //    XLen = xlen,
-            //    YLen = ylen
-            //};
-
-            Grid grid = new Grid
+            DateTime dateGrid = Convert.ToDateTime(date);
+            var gridToUpdate = db.Grids.Where(x => x.RestaurantId == 10 && DateTime.Compare(x.Date, dateGrid) == 0).FirstOrDefault();
+            var id = 0;
+            if (gridToUpdate ==null)
             {
-                Id = id,
-                RestaurantId = restaurantId,
-                Date = Convert.ToDateTime(date),
-                GridType = gridType,
-                Name = name,
-                IsDefault = isDefault,
-                XLen = xlen,
-                YLen = ylen
-            };
+                // Retrieve the max id
+                id = db.Grids.Max(x => x.Id) + 1;
 
-            try
-            {
-                db.Grids.Add(grid);
-
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                //if (!GridExists(id))
+                // To transfer the parameters to a grid
+                //Grid grid = new Grid
                 //{
-                //    return NotFound();
-                //}
-                //else
-                //{
-                //    throw;
-                //}
-            }
+                //    Id = id,
+                //    RestaurantId = restaurantId,
+                //    Date = DateTime.FromBinary(date),
+                //    GridType = gridType,
+                //    Name = name,
+                //    IsDefault = isDefault,
+                //    XLen = xlen,
+                //    YLen = ylen
+                //};
 
-            return Ok(grid.Id);
+                Grid grid = new Grid
+                {
+                    Id = id,
+                    RestaurantId = restaurantId,
+                    Date = Convert.ToDateTime(date),
+                    GridType = gridType,
+                    Name = name,
+                    IsDefault = isDefault,
+                    XLen = xlen,
+                    YLen = ylen
+                };
+
+                try
+                {
+                    db.Grids.Add(grid);
+
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    //if (!GridExists(id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
+                }
+            }
+            else
+            {
+                 id = gridToUpdate.Id;
+            }
+            return Ok(id);
         }
 
         // DELETE: api/Grids/5
