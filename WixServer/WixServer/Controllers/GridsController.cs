@@ -161,7 +161,10 @@
             }
             else
             {
-                 id = gridToUpdate.Id;
+                gridToUpdate.XLen = xlen;
+                gridToUpdate.YLen = ylen;
+                db.SaveChanges();
+                id = gridToUpdate.Id;
             }
             return Ok(id);
         }

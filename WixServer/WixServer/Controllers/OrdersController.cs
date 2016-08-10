@@ -43,23 +43,25 @@ namespace WixServer.Controllers
 
             return Ok(order);
         }
-
+       
         // GET: api/Orders/5
-        [Route("api/GetAdminOrders/{gridId}")]
+        [Route("api/GetAdminOrders/{orderDate}")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [ResponseType(typeof(List<OrderDto>))]
-        public IHttpActionResult GetAdminOrders(int gridId)
+        public IHttpActionResult GetAdminOrders(string orderDate)
         {
-            Grid grid = db.Grids.Where(x => x.Id == gridId).FirstOrDefault();
+           // Grid grid = db.Grids.Where(x => x.Date == gridId).FirstOrDefault();
 
-            if (grid == null)
+            //if (grid == null)
             {
-                return NotFound();
+            //    return NotFound();
             }
 
-            var gridDate = grid.Date;
+            //var gridDate = grid.Date;
 
             // TODO: allow only one order from each customer?
-            List<Order> orders = db.Orders.Where(x => x.GridId == gridId).ToList();
+            DateTime dtOrderDate = Convert.ToDateTime(orderDate);
+            List<Order> orders = db.Orders.Where(x => DbFunctions.TruncateTime(x.FromTime).Value == dtOrderDate).ToList();
 
             List<OrderDto> ordersDtoList = new List<OrderDto>();
 
@@ -70,7 +72,7 @@ namespace WixServer.Controllers
 
             orders.ForEach(x =>
             {
-                var orderDto = new OrderDto { Date = grid.Date, FromTime = x.FromTime, ToTime = x.ToTime, NumOfPeople = x.NumOfPeople, TableNumber = x.TableNumber };
+                var orderDto = new OrderDto { Date = dtOrderDate, FromTime = x.FromTime, ToTime = x.ToTime, NumOfPeople = x.NumOfPeople, TableNumber = x.TableNumber };
 
                 Customer customer = db.Customers.FirstOrDefault(y => y.Id == x.CustomerId);
 
