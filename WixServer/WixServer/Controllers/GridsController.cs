@@ -233,11 +233,29 @@
             return db.Grids.Count(e => e.Id == id) > 0;
         }
 
-        [Route("api/GetGridCluster")]
-        [ResponseType(typeof(GridDto))]
-        public IHttpActionResult GetGridCluster(int gridId)
+        [Route("api/Grids/GetGridCluster/{restaurantId}/{date}")]
+        [ResponseType(typeof(String))]
+        public IHttpActionResult GetGridCluster(int restaurantId, string date)
         {
-            return Ok(KMeans.GetKmeansForGrid(gridId));
+            var today = Convert.ToDateTime(date);
+
+            Grid grid = db.Grids.Where(x => DbFunctions.TruncateTime(x.Date).Value == today && x.RestaurantId == restaurantId).FirstOrDefault();
+            //var grid = db.Grids.Where(x => x.RestaurantId == restaurantId).FirstOrDefault();
+
+            if (grid == null)
+            {
+                return NotFound();
+            }
+
+            var cluster = KMeans.GetKmeansForGrid(grid.Id);
+            String result = "";
+
+            for (int i = 0; i < cluster.Length; i++)
+            {
+                result += "Table " + (i+1) + " is in cluster " + (cluster[i] + 1) + "<br>";
+            }
+
+            return Ok(result);
         }
     }
 }
