@@ -252,7 +252,9 @@
 
             for (int i = 0; i < cluster.Length; i++)
             {
-                result += "Table " + (i+1) + " is in cluster " + (cluster[i] + 1) + "<br>";
+                // get table details
+                Table table = db.Tables.Where(x => x.GridId == grid.Id && x.TableNumber == i).FirstOrDefault();
+                result += "Table " + (i+1) + "("+table.xCoord+ "," + table.yCoord+") " + "is in cluster " + (cluster[i] + 1) + "<br>";
             }
 
             return Ok(result);
